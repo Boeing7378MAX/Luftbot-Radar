@@ -1,9 +1,8 @@
 name: Luftbot Radar
 on:
   schedule:
-    # This runs the bot every 5 minutes automatically (free of charge)
     - cron: '*/5 * * * *'
-  workflow_dispatch: # This adds the 'Run' button for manual testing
+  workflow_dispatch:
 
 jobs:
   build:
@@ -11,17 +10,11 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.9'
-
       - name: Install dependencies
         run: pip install requests
-
       - name: Run Radar Pulse
-        # THIS IS THE CRITICAL SECTION TO FIX THE '403' OR 'EMPTY' ERROR
-        env:
-          WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }} 
         run: python radar.py
